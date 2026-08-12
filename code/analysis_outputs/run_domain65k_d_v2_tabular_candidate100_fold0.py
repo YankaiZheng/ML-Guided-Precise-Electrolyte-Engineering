@@ -14,10 +14,9 @@ import run_domain65k_d_model_search as train
 import run_domain65k_d_v2_tabular_augmented as augmented
 
 
-ROOT = Path(__file__).resolve().parents[1]
 OUT = train.RUN_DIR / "domain65k_d_v2_tabular_candidate100_fold0_frozen081"
 ARTIFACTS = OUT / "model_artifacts"
-EXCLUSION = ROOT / "analysis_outputs/candidate_curation_v3/domain65k_candidate100_exact_exclusion.csv"
+EXCLUSION = train.COHORT_EXCLUSION
 FROZEN_FEATURE_MANIFEST = train.RUN_DIR / "domain65k_d_v2_tabular_augmented/fold0_feature_manifest.json"
 FOLD = 0
 
