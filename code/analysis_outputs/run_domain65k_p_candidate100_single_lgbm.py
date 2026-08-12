@@ -22,11 +22,11 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import run_domain65k_d_model_search as domain
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs"
+REPOSITORY = Path(__file__).resolve().parents[2]
+RUN = domain.RUN_DIR
 OUT = RUN / "domain65k_p_candidate100_single_lgbm"
 ARTIFACTS = OUT / "model_artifacts"
-EXCLUSION = ROOT / "analysis_outputs/candidate_curation_v3/domain65k_candidate100_exact_exclusion.csv"
+EXCLUSION = domain.COHORT_EXCLUSION
 
 FOLD = 0
 SEED = 20260714
