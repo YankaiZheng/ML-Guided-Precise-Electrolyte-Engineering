@@ -14,10 +14,9 @@ import pandas as pd
 from scipy.stats import spearmanr
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs"
-INPUT = RUN / "domain65k_d_candidate100_fold0_fusion_multiobjective/evaluation4000_predictions.csv"
-OUT = ROOT / "analysis_outputs/paper_figures_ml_workflow"
+ROOT = Path(__file__).resolve().parents[2]
+INPUT = ROOT / "data" / "test" / "test4000_predictions.csv"
+OUT = ROOT / "results" / "figures"
 SOURCE = OUT / "source_data"
 STEM = OUT / "Fig_interpretability_consensus_reliability"
 SEED = 20260719
