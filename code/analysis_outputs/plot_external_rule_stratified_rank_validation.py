@@ -21,15 +21,13 @@ import pandas as pd
 from scipy.stats import rankdata, spearmanr
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs/domain65k_candidate100_final_private_external179"
-OUT = ROOT / "analysis_outputs/paper_figures_ml_workflow"
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "results" / "figures"
 SOURCE = OUT / "source_data"
 
-BROAD_CSV = RUN / "broad_structural_compatibility_n140_predictions.csv"
-STRICT_CSV = RUN / "strict_domain_rule_matched_n34_predictions.csv"
-METRICS_CSV = RUN / "external179_strict_and_broad_D_metrics.csv"
-WEIGHTS_JSON = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs/domain65k_d_candidate100_fold0_fusion_multiobjective/multiobjective_weights.json"
+BROAD_CSV = ROOT / "data" / "external" / "external_broad_n140.csv"
+STRICT_CSV = ROOT / "data" / "external" / "external_strict_n34.csv"
+WEIGHTS_JSON = ROOT / "code" / "frozen_configs" / "final_d_fusion_weights.json"
 
 STEM = "Fig_external_rule_stratified_rank_validation"
 SCORE_COL = "D_score__recomputed_subset"
@@ -84,6 +82,15 @@ def descending_rank(values: pd.Series) -> np.ndarray:
     return rankdata(-np.asarray(values, dtype=float), method="average")
 
 
+def ndcg_at_10pct(y_true: np.ndarray, score: np.ndarray) -> float:
+    k = max(1, int(np.ceil(len(y_true) * 0.10)))
+    discount = 1.0 / np.log2(np.arange(2, k + 2))
+    predicted = np.argsort(-score, kind="mergesort")[:k]
+    ideal = np.argsort(-y_true, kind="mergesort")[:k]
+    gains = np.maximum(y_true - np.min(y_true), 0.0)
+    return float(np.dot(gains[predicted], discount) / np.dot(gains[ideal], discount))
+
+
 def require_close(actual: float, expected: float, label: str) -> None:
     if not np.isclose(actual, expected, atol=1e-12, rtol=0.0):
         raise AssertionError(f"{label}: expected {expected:.12f}, observed {actual:.12f}")
@@ -96,7 +103,6 @@ def main() -> None:
 
     broad = pd.read_csv(BROAD_CSV)
     strict = pd.read_csv(STRICT_CSV)
-    metrics = pd.read_csv(METRICS_CSV).set_index("subset")
     weights_payload = json.loads(WEIGHTS_JSON.read_text(encoding="utf-8"))
 
     for label, frame, expected_n in (("broad", broad, 140), ("strict", strict, 34)):
@@ -117,10 +123,8 @@ def main() -> None:
     rho_strict = float(spearmanr(strict["D"], strict[SCORE_COL]).statistic)
     require_close(rho_broad, 0.790796716920716, "Broad n=140 Spearman")
     require_close(rho_strict, 0.8563789152024445, "Strict n=34 Spearman")
-    require_close(float(metrics.loc["broad_structural_compatibility_n140", "spearman"]), rho_broad, "Frozen broad metric")
-    require_close(float(metrics.loc["strict_domain_rule_matched_n34", "spearman"]), rho_strict, "Frozen strict metric")
-    ndcg_broad = float(metrics.loc["broad_structural_compatibility_n140", "ndcg_at_10pct"])
-    ndcg_strict = float(metrics.loc["strict_domain_rule_matched_n34", "ndcg_at_10pct"])
+    ndcg_broad = ndcg_at_10pct(broad["D"].to_numpy(float), broad[SCORE_COL].to_numpy(float))
+    ndcg_strict = ndcg_at_10pct(strict["D"].to_numpy(float), strict[SCORE_COL].to_numpy(float))
     require_close(ndcg_broad, 0.8961863747532142, "Broad n=140 NDCG@10%")
     require_close(ndcg_strict, 0.9395083234807268, "Strict n=34 NDCG@10%")
 
@@ -230,7 +234,6 @@ def main() -> None:
         "inputs": {
             "broad_predictions": str(BROAD_CSV),
             "strict_predictions": str(STRICT_CSV),
-            "frozen_metrics": str(METRICS_CSV),
             "frozen_fold0_fusion_weights": str(WEIGHTS_JSON),
         },
         "cohorts": {
