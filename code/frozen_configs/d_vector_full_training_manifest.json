@@ -1,0 +1,12 @@
+{
+  "status": "frozen_fold0_schedule_refit_on_all_development",
+  "n_candidate100_clean_graph_valid": 60554,
+  "schedule": {
+    "high_epochs": 35,
+    "high_learning_rate": 0.0003,
+    "low_epochs": 1,
+    "low_learning_rate": 5e-05
+  },
+  "device": "cuda",
+  "locked_status": "not read"
+}
