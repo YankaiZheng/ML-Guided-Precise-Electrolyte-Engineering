@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use these data or the D-P Compass workflow, please cite this repository and the associated article."
+title: "ML-Guided Precise Electrolyte Engineering: Electrolyte-65K and D-P Compass data resources"
+type: dataset
+authors:
+  - family-names: Zheng
+    given-names: Yankai
+repository-code: "https://github.com/YankaiZheng/ML-Guided-Precise-Electrolyte-Engineering"
+license: CC-BY-4.0
+version: 1.0.0
+date-released: 2026-08-12
+
