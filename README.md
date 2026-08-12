@@ -15,6 +15,10 @@ This repository hosts the data resources for the D-P Compass workflow used for m
 
 The `n=34` external set is a strict subset of the `n=140` broad external set. It is not an independent second external test set.
 
+## Code
+
+The final D-P Compass training, refitting, evaluation, fusion, and figure-generation scripts are available in [`code/`](code/README.md). Frozen feature manifests and the final rank-fusion weights are included with the code.
+
 ## File descriptions
 
 ### Development data
