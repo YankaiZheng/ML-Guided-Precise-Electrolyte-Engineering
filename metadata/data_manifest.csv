@@ -1,0 +1,7 @@
+path,role,rows_excluding_header,columns,compressed_size_bytes,release_location
+data/development/main_dataset.csv.gz,Candidate100-clean development matrix,60641,3562,612154568,GitHub Release v1.0.0 asset
+data/test/test4000_features.csv.gz,Frozen internal test feature matrix,4000,3563,39720258,Git repository
+data/test/test4000_predictions.csv,Frozen internal test labels and final-model predictions,4000,39,2446787,Git repository
+data/external/external_broad_n140.csv,Broad structural-compatible external validation set,140,30,59249,Git repository
+data/external/external_strict_n34.csv,Strict 65k-aligned subset of broad external validation set,34,30,13813,Git repository
+metadata/feature_dictionary.csv,Column-level feature metadata,3562,14,982760,Git repository
