@@ -14,8 +14,7 @@ from run_domain65k_d_candidate100_xgb_fold0 import frozen_features
 from run_domain65k_d_v2_tabular_candidate100_fold0 import load_candidate100_frame
 
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs/domain65k_d_candidate100_xgb_full"
+OUT = legacy.RUN / "domain65k_d_candidate100_xgb_full"
 ARTIFACTS = OUT / "model_artifacts"
 
 
