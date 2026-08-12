@@ -27,13 +27,14 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset, Sampler
 
 
-ROOT = Path(__file__).resolve().parents[1]
-DOMAIN = ROOT / "analysis_outputs/qme14s_training/domain65k"
+REPOSITORY = Path(__file__).resolve().parents[2]
+STUDY_ARTIFACT_ROOT = Path(__import__("os").environ.get("DP_COMPASS_STUDY_ARTIFACT_ROOT", REPOSITORY / "study_artifacts"))
+DOMAIN = STUDY_ARTIFACT_ROOT / "domain65k"
 RAW = DOMAIN / "features_v2_atom3d/chunks"
 CV = DOMAIN / "domain65k_cv_pool_complete_features.csv"
 ALIGN = DOMAIN / "features_v2_vector_alignment/vector_alignment_dev.pkl"
 ALIGN_MANIFEST = DOMAIN / "features_v2_vector_alignment/vector_alignment_manifest.json"
-EXCLUSION = ROOT / "analysis_outputs/candidate_curation_v3/domain65k_candidate100_exact_exclusion.csv"
+EXCLUSION = STUDY_ARTIFACT_ROOT / "candidate_curation_v3/domain65k_candidate100_exact_exclusion.csv"
 RUN = DOMAIN / "model_runs"
 SEED = 20260714
 KBT_EH = 3.166811563e-6 * 298.15
