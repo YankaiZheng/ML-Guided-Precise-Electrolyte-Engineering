@@ -18,15 +18,18 @@ from sklearn.metrics import mean_absolute_error
 import xgboost as xgb
 
 
-ROOT = Path(__file__).resolve().parents[1]
-DOMAIN_DIR = ROOT / "analysis_outputs" / "qme14s_training" / "domain65k"
+REPOSITORY = Path(__file__).resolve().parents[2]
+# The historical training scripts require these study-generated intermediate
+# stores. They are intentionally not distributed in the public data release.
+STUDY_ARTIFACT_ROOT = Path(os.environ.get("DP_COMPASS_STUDY_ARTIFACT_ROOT", REPOSITORY / "study_artifacts"))
+DOMAIN_DIR = STUDY_ARTIFACT_ROOT / "domain65k"
 FEATURE_DIR = DOMAIN_DIR / "features"
 RUN_DIR = DOMAIN_DIR / "model_runs"
 CV_POOL = DOMAIN_DIR / "domain65k_cv_pool_approx60800.csv"
 CHEAP = FEATURE_DIR / "domain65k_cheap_v3_v4_v5_features.pkl"
 SINGLE = FEATURE_DIR / "domain65k_xtb_single_features.pkl"
 MC3 = FEATURE_DIR / "domain65k_xtb_mc3_features.pkl"
-COHORT_EXCLUSION = ROOT / "analysis_outputs/candidate_curation_v2/domain65k_candidate_exact_exclusion.csv"
+COHORT_EXCLUSION = STUDY_ARTIFACT_ROOT / "candidate_curation_v3/domain65k_candidate100_exact_exclusion.csv"
 
 SEED = 20260711
 PAIRWISE_SAMPLE_N = 300_000
