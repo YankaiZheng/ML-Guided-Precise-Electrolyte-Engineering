@@ -1,6 +1,6 @@
 # Development set release asset
 
-The complete Candidate100-clean development matrix is distributed as the release asset:
+The complete development matrix is distributed as the release asset:
 
 `main_dataset.csv.gz`
 
