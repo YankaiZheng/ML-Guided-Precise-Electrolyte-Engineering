@@ -1,0 +1,8 @@
+# SHA-256 integrity manifest for release v1.0.0
+# Format: <sha256>  <relative path>
+d31284a7c640c4ed92d44ab30e55d1b8f65b7afc207196b1edd172a60500a0a1  data/development/main_dataset.csv.gz
+05c13d50043e05ce510c789b700b60c5fbf482374935ba92adec9c65a8e756d2  data/test/test4000_features.csv.gz
+fe886f1a69f611f211873635d8c713a3fdc403648bc9d6384ecba177d319ba6d  data/test/test4000_predictions.csv
+4742fed44e904f6c32136356a1f94c88a7e67f63419c52630eb6564651b6a0f1  data/external/external_broad_n140.csv
+dd8e9fa92181dc29330e6db4a2c1d05afcf2ffeab1f2e0c1ab5274e7af80a4d0  data/external/external_strict_n34.csv
+a9086bd91c24c02719fc57f98bece6e81fbb9df12c872cb7e23bf8e9d1ad79d2  metadata/feature_dictionary.csv
