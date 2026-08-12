@@ -19,7 +19,7 @@ The `n=34` external set is a strict subset of the `n=140` broad external set. It
 
 ### Development data
 
-`main_dataset.csv.gz` is provided as a GitHub Release asset rather than a Git-tracked file because its compressed size is approximately 584 MB, above GitHub's regular 100 MB file limit. Download it from [Release v1.0.0](https://github.com/YankaiZheng/ML-Guided-Precise-Electrolyte-Engineering/releases/tag/v1.0.0). Its SHA-256 checksum is recorded in `metadata/checksums.sha256`.
+`main_dataset.csv.gz` is provided as a GitHub Release asset rather than a Git-tracked file because its compressed size is approximately 584 MB, above GitHub's regular 100 MB file limit. Download it from [Release v1.0.0](https://github.com/YankaiZheng/ML-Guided-Precise-Electrolyte-Engineering/releases/tag/v1.0.0).
 
 The development set contains the 60,641 Candidate100-clean records used for model development and final refitting. `cv_fold` identifies the prespecified development fold assignment. The fixed 4,000-molecule internal test set is not included in this file.
 
@@ -42,14 +42,6 @@ The external records use B3LYP/6-31+G(d,p) reference values, rather than the B3L
 Electrolyte-65K was derived by applying predefined electrolyte-relevant structural rules to QMe14S equilibrium-structure records, followed by complete-feature filtering and the frozen split protocol used in this study. QMe14S comprises 186,102 small organic molecules calculated at the B3LYP/TZVP level and is distributed under CC BY. Please cite both the original QMe14S publication and this repository when reusing these derived resources.
 
 Yuan, M.; Zou, Z.; Hu, W. *QMe14S: A Comprehensive and Efficient Spectral Data Set for Small Organic Molecules.* **J. Phys. Chem. Lett.** 2025. https://doi.org/10.1021/acs.jpclett.5c00839
-
-## Integrity checks
-
-SHA-256 digests for every distributed data object are provided in `metadata/checksums.sha256`; row and column counts are listed in `metadata/data_manifest.csv`. For a local integrity check:
-
-```bash
-shasum -a 256 -c metadata/checksums.sha256
-```
 
 ## License
 
