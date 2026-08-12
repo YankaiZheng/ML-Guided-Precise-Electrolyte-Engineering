@@ -1,0 +1,62 @@
+{
+  "status": "fold0_multiobjective_fusion_frozen",
+  "selection_rule": {
+    "objectives": [
+      "Spearman",
+      "NDCG@10%"
+    ],
+    "weight_constraints": "non-negative simplex; each member <= 0.60",
+    "endpoint_normalization": "Each objective is normalized between its values at the two independently optimized endpoints.",
+    "compromise": "Select Pareto point maximizing the minimum normalized attainment; tie-break by mean attainment, then lower weight L2.",
+    "pruning": "Weights below 0.005 are removed only if both metric decreases are <= 1e-4."
+  },
+  "n_shared_graph_valid": 12114,
+  "feature_names": [
+    "pred__cat_rank",
+    "pred__cat_raw",
+    "pred__lgbm_normal",
+    "pred__lgbm_rank",
+    "pred__lgbm_raw",
+    "pred__xgb_rank",
+    "pred__xgb_raw",
+    "pred__vector_mu"
+  ],
+  "spearman_endpoint": {
+    "spearman": 0.8192694761908628,
+    "ndcg_at_10pct": 0.9091571212528349
+  },
+  "ndcg_endpoint": {
+    "spearman": 0.8154549283608972,
+    "ndcg_at_10pct": 0.9189717012832718
+  },
+  "selected_alpha_is_diagnostic_only": 0.5,
+  "selected_before_pruning": {
+    "alpha": 0.5,
+    "spearman": 0.8186812659647242,
+    "ndcg_at_10pct": 0.915829856409803,
+    "spearman_attainment": 0.845798177829157,
+    "ndcg_attainment": 0.6798798457269349,
+    "min_attainment": 0.6798798457269349,
+    "mean_attainment": 0.7628390117780459,
+    "weight_l2": 0.26681751983128754
+  },
+  "pruning_accepted": true,
+  "selected": {
+    "spearman": 0.8186814543568804,
+    "ndcg_at_10pct": 0.915830343178814,
+    "spearman_attainment": 0.8458475656372554,
+    "ndcg_attainment": 0.6799294422465494
+  },
+  "weights_by_member": {
+    "pred__cat_rank": 0.0,
+    "pred__cat_raw": 0.021641476152705535,
+    "pred__lgbm_normal": 0.11351517891377887,
+    "pred__lgbm_rank": 0.0721776864183133,
+    "pred__lgbm_raw": 0.038919265787373133,
+    "pred__xgb_rank": 0.10465435180951824,
+    "pred__xgb_raw": 0.2123438522269022,
+    "pred__vector_mu": 0.4367481886914087
+  },
+  "search_evaluations": 136522,
+  "locked_or_evaluation_labels_read": false
+}
