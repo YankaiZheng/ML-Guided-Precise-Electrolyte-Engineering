@@ -7,7 +7,7 @@ This repository hosts the data resources for the D-P Compass workflow used for m
 | Resource | Location | Molecules | Contents |
 | --- | --- | ---: | --- |
 | Development set | GitHub Release `v1.0.0` | 60,641 | Candidate100-clean development records, D/P labels, identifiers, and complete multiscale feature matrix |
-| Internal test features | `data/test/test4000_features.csv.gz` | 4,000 | Frozen complete-case test records, D/P labels, and complete multiscale feature matrix |
+| Internal test features | GitHub Release `v1.0.0` | 4,000 | Frozen complete-case test records, D/P labels, and complete multiscale feature matrix |
 | Internal test predictions | `data/test/test4000_predictions.csv` | 4,000 | Frozen eight-member D predictions, final D fusion, and final P predictions |
 | Broad external validation set | `data/external/external_broad_n140.csv` | 140 | External D/P labels and final-model member/fusion predictions |
 | Strict external validation subset | `data/external/external_strict_n34.csv` | 34 | Strict Electrolyte-65K rule-aligned subset of the broad external set |
@@ -19,13 +19,13 @@ The `n=34` external set is a strict subset of the `n=140` broad external set. It
 
 ### Development data
 
-`main_dataset.csv.gz` is provided as a GitHub Release asset rather than a Git-tracked file because its compressed size is approximately 584 MB, above GitHub's regular 100 MB file limit. The file is linked from the [v1.0.0 release](../../releases/tag/v1.0.0). Its SHA-256 checksum is recorded in `metadata/checksums.sha256`.
+`main_dataset.csv.gz` is provided as a GitHub Release asset rather than a Git-tracked file because its compressed size is approximately 584 MB, above GitHub's regular 100 MB file limit. Download it from [Release v1.0.0](https://github.com/YankaiZheng/ML-Guided-Precise-Electrolyte-Engineering/releases/tag/v1.0.0). Its SHA-256 checksum is recorded in `metadata/checksums.sha256`.
 
 The development set contains the 60,641 Candidate100-clean records used for model development and final refitting. `cv_fold` identifies the prespecified development fold assignment. The fixed 4,000-molecule internal test set is not included in this file.
 
 ### Internal test data
 
-`test4000_features.csv.gz` contains the frozen 4,000-molecule internal evaluation set and all complete tabular features. `test4000_predictions.csv` contains the corresponding labels and predictions from the final D and P models. The D target is recorded in debye and P is recorded in atomic units.
+`test4000_features.csv.gz` is provided as a Release v1.0.0 asset and contains the frozen 4,000-molecule internal evaluation set and all complete tabular features. `test4000_predictions.csv` in this repository contains the corresponding labels and predictions from the final D and P models. The D target is recorded in debye and P is recorded in atomic units.
 
 The test set was held out from the final model refitting and fusion-weight search. It is made public here to enable exact reproduction of reported test metrics and figures.
 
