@@ -16,12 +16,11 @@ import pandas as pd
 from scipy.stats import rankdata, spearmanr
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs"
+REPOSITORY = Path(__file__).resolve().parents[2]
+RUN = Path(__import__("os").environ.get("DP_COMPASS_STUDY_ARTIFACT_ROOT", REPOSITORY / "study_artifacts")) / "domain65k/model_runs"
 TABULAR = RUN / "domain65k_d_v2_tabular_candidate100_fold0_frozen081/fold0_predictions.csv"
 XGB = RUN / "domain65k_d_candidate100_xgb_fold0/fold0_predictions.csv"
 VECTOR = RUN / "domain65k_d_vector_candidate100_gpu_fold0_lr5e5_e35_outer_eval_predictions.csv"
-OLD = RUN / "domain65k_d_candidate100_fold0_fusion/manual_refined_weights_with_xgb.json"
 OUT_DIR = RUN / "domain65k_d_candidate100_fold0_fusion_multiobjective"
 MAX_MEMBER_WEIGHT = 0.60
 STEPS = (0.02, 0.01, 0.005, 0.002, 0.001, 0.0005)
@@ -73,9 +72,7 @@ def main() -> None:
             metric_cache[key] = (float(spearmanr(y, score).statistic), ndcg10(y, score))
         return metric_cache[key]
 
-    old_payload = json.loads(OLD.read_text(encoding="utf-8"))
-    old = np.array([old_payload["weights_by_member"].get(name, 0.0) for name in names], dtype=float)
-    starts = [old, np.full(len(names), 1.0 / len(names))]
+    starts = [np.full(len(names), 1.0 / len(names))]
     starts.extend(np.eye(len(names), dtype=float))
     rng = np.random.default_rng(20260716)
     starts.extend(rng.dirichlet(np.full(len(names), 1.5), size=24))
