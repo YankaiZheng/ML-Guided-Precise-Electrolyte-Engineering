@@ -20,15 +20,13 @@ import pandas as pd
 from scipy.stats import rankdata, spearmanr
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUNS = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs"
-OUT = ROOT / "analysis_outputs/paper_figures_ml_workflow"
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "results" / "figures"
 SOURCE = OUT / "source_data"
 
-EVALUATION4000 = RUNS / "domain65k_candidate100_final_locked/candidate100_clean_locked_dft_suitability_4194_random_remove194_seed20260715_kept4000_predictions.csv"
-EXTERNAL = RUNS / "domain65k_candidate100_final_private_external179"
-BROAD140 = EXTERNAL / "broad_structural_compatibility_n140_predictions.csv"
-STRICT34 = EXTERNAL / "strict_domain_rule_matched_n34_predictions.csv"
+EVALUATION4000 = ROOT / "data" / "test" / "test4000_predictions.csv"
+BROAD140 = ROOT / "data" / "external" / "external_broad_n140.csv"
+STRICT34 = ROOT / "data" / "external" / "external_strict_n34.csv"
 
 TRUE_COL = "P"
 PRED_COL = "P_pred__single_lgbm_raw"
