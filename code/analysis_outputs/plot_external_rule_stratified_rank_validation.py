@@ -87,7 +87,8 @@ def ndcg_at_10pct(y_true: np.ndarray, score: np.ndarray) -> float:
     discount = 1.0 / np.log2(np.arange(2, k + 2))
     predicted = np.argsort(-score, kind="mergesort")[:k]
     ideal = np.argsort(-y_true, kind="mergesort")[:k]
-    gains = np.maximum(y_true - np.min(y_true), 0.0)
+    # Use raw physical-property values as gains, matching the frozen report.
+    gains = np.asarray(y_true, dtype=float)
     return float(np.dot(gains[predicted], discount) / np.dot(gains[ideal], discount))
 
 

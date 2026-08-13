@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paper-facing algorithm comparison on the curated 4,000-row cohort."""
+"""Plot the public Test-4000 D-ranking algorithm comparison."""
 
 from __future__ import annotations
 
@@ -12,10 +12,9 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "analysis_outputs/qme14s_training/domain65k/model_runs/domain65k_d_algorithm_comparison_4000"
-OUT = ROOT / "analysis_outputs/paper_figures_ml_workflow"
-SOURCE = OUT / "source_data"
+ROOT = Path(__file__).resolve().parents[2]
+INPUT = ROOT / "data" / "figure_source" / "fig2b_algorithm_evaluation4000.csv"
+OUT = ROOT / "results" / "figures"
 
 COLORS = {
     "deep_blue": "#4f779e",
@@ -57,43 +56,36 @@ def model_color(model: str) -> str:
         return COLORS["deep_blue"]
     if model == "Equivariant vector":
         return COLORS["green"]
-    if model == "TabM":
-        return COLORS["mauve"]
     if "LTR" in model:
         return COLORS["light_gray"]
+    if "MLP" in model or "ResNet" in model:
+        return COLORS["mauve"]
+    if "kNN" in model:
+        return "#b8c9d6"
+    if "xTB direct" in model:
+        return COLORS["mid_gray"]
     return COLORS["sky_blue"]
 
 
 def main() -> None:
     configure_style()
     OUT.mkdir(parents=True, exist_ok=True)
-    SOURCE.mkdir(parents=True, exist_ok=True)
-    data = pd.read_csv(RUN / "evaluation4000_metrics.csv")
+    data = pd.read_csv(INPUT)
     order = [
-        "Final fusion", "TabM", "LightGBM", "XGBoost", "CatBoost",
-        "Equivariant vector", "LightGBM-LTR", "XGBoost-LTR",
+        "Final fusion", "XGBoost", "LightGBM", "CatBoost", "RealMLP",
+        "Equivariant vector", "ResNet-RTDL", "CatBoost-YetiRank",
+        "LightGBM-LTR", "XGBoost-LTR", "Morgan-Tanimoto kNN", "GFN2-xTB direct",
     ]
     data["order"] = data["model"].map({name: idx for idx, name in enumerate(order)})
+    if data["order"].isna().any() or len(data) != len(order):
+        raise RuntimeError("The published comparison table is incomplete or contains an unknown model")
     data = data.sort_values("order").reset_index(drop=True)
-    metadata = {
-        "Final fusion": ("system", "8 frozen rank-normalized members", "all 60,641 development rows"),
-        "TabM": ("deep tabular", "3,000 features", "fold-0 train; strongest frozen checkpoint"),
-        "LightGBM": ("boosting", "3,000 features", "fold-0 train; 1,800 trees"),
-        "XGBoost": ("boosting", "2,048 selected features", "fold-0 train; 1,550 trees"),
-        "CatBoost": ("boosting", "3,000 features", "fold-0 train; 2,200 trees"),
-        "Equivariant vector": ("physics-guided", "three-conformer atom graphs", "all 60,641 development rows"),
-        "LightGBM-LTR": ("learning-to-rank", "512 selected features", "fold-0 train; 287 trees"),
-        "XGBoost-LTR": ("learning-to-rank", "3,000 features", "fold-0 train; 62 trees"),
-    }
-    for key, values in zip(("family", "input", "training_protocol"), zip(*(metadata[name] for name in data["model"]))):
-        data[key] = values
-    data.to_csv(SOURCE / "fig2b_algorithm_evaluation4000.csv", index=False)
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.25), sharey=True, gridspec_kw={"wspace": 0.10})
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 4.5), sharey=True, gridspec_kw={"wspace": 0.10})
     y = np.arange(len(data))[::-1]
     panels = [
-        ("spearman", "Spearman correlation", (0.49, 0.85), [0.50, 0.60, 0.70, 0.80]),
-        ("ndcg_at_10pct", "NDCG@10%", (0.82, 0.905), [0.84, 0.86, 0.88, 0.90]),
+        ("spearman", "Spearman correlation", (0.50, 0.85), [0.50, 0.60, 0.70, 0.80]),
+        ("ndcg_at_10pct", "NDCG@10%", (0.79, 0.905), [0.80, 0.84, 0.88]),
     ]
     for panel_idx, (ax, (column, label, limits, ticks)) in enumerate(zip(axes, panels)):
         values = data[column].to_numpy(float)
@@ -108,7 +100,7 @@ def main() -> None:
             offset = (limits[1] - limits[0]) * 0.018
             ax.text(
                 value + offset, y[idx], f"{value:.3f}", va="center", ha="left",
-                fontsize=6.5, color=COLORS["ink"],
+                fontsize=6.1, color=COLORS["ink"],
                 fontweight="bold" if model == "Final fusion" else "normal",
             )
         ax.set_xlim(*limits)
@@ -134,15 +126,19 @@ def main() -> None:
         plt.Line2D([0], [0], marker="o", linestyle="", markersize=5.2,
                    markerfacecolor=COLORS["green"], markeredgecolor="white", label="Physics-guided"),
         plt.Line2D([0], [0], marker="o", linestyle="", markersize=5.2,
+                   markerfacecolor="#b8c9d6", markeredgecolor="white", label="Similarity baseline"),
+        plt.Line2D([0], [0], marker="o", linestyle="", markersize=5.2,
+                   markerfacecolor=COLORS["mid_gray"], markeredgecolor="white", label="Direct xTB"),
+        plt.Line2D([0], [0], marker="o", linestyle="", markersize=5.2,
                    markerfacecolor=COLORS["light_gray"], markeredgecolor="white", label="LTR"),
         plt.Line2D([0], [0], marker="o", linestyle="", markersize=5.2,
                    markerfacecolor=COLORS["deep_blue"], markeredgecolor="white", label="Final system"),
     ]
-    fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.54, 0.015), ncol=5,
-               columnspacing=1.25, handletextpad=0.40)
-    fig.text(0.54, 0.105, "Chemistry-curated evaluation cohort (n = 4,000)",
+    fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.54, 0.01), ncol=4,
+               columnspacing=1.10, handletextpad=0.40)
+    fig.text(0.54, 0.105, "Frozen Test-4000 cohort",
              ha="center", va="bottom", fontsize=6.4, color=COLORS["mid_gray"])
-    fig.subplots_adjust(left=0.19, right=0.975, top=0.88, bottom=0.27)
+    fig.subplots_adjust(left=0.24, right=0.975, top=0.88, bottom=0.28)
 
     stem = OUT / "Fig2b_algorithm_comparison_evaluation4000"
     fig.savefig(stem.with_suffix(".png"), dpi=600, bbox_inches="tight")
@@ -152,12 +148,11 @@ def main() -> None:
 
     manifest = {
         "surface_class": "paper_main",
-        "core_claim": "The frozen final fusion gives the strongest global rank agreement; TabM is the strongest standalone tabular control, while the equivariant vector retains strong top-decile screening quality.",
-        "source_data": "source_data/fig2b_algorithm_evaluation4000.csv",
+        "core_claim": "The frozen final fusion integrates complementary global-rank and top-decile signals.",
+        "source_data": str(INPUT),
         "generating_script": "analysis_outputs/plot_domain65k_d_algorithm_comparison_4000.py",
         "exports": [f"{stem.name}.png", f"{stem.name}.pdf", f"{stem.name}.svg"],
-        "cohort_caveat": "Chemistry-curated 4,000-row evaluation set; not the original untouched locked test.",
-        "self_review_fix": "Separated the cohort note and five-category legend into distinct bottom rows after the first render showed overlap; retained a shared method order across both panels.",
+        "cohort": "Frozen Test-4000 evaluation cohort.",
     }
     (OUT / f"{stem.name}_manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

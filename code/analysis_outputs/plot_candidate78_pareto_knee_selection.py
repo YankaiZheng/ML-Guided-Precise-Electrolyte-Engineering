@@ -13,13 +13,13 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "analysis_outputs/final_candidates_20260718"
-OUT = ROOT / "analysis_outputs/paper_figures_ml_workflow"
-SOURCE = OUT / "source_data"
+ROOT = Path(__file__).resolve().parents[2]
+DATA = ROOT / "data" / "candidates"
+SOURCE = ROOT / "data" / "figure_source"
+OUT = ROOT / "results" / "figures"
 
-CANDIDATES_CSV = DATA / "final78_source_order_predictions.csv"
-KNEE_CSV = DATA / "D_P_pareto_knee_official.csv"
+CANDIDATES_CSV = DATA / "candidate78_final_predictions.csv"
+KNEE_CSV = DATA / "candidate78_pareto_knee.csv"
 STEM = "Fig_candidate78_pareto_knee_selection"
 
 COLORS = {
@@ -71,7 +71,6 @@ def point_to_line_projection(point: np.ndarray, start: np.ndarray, end: np.ndarr
 def main() -> None:
     configure_style()
     OUT.mkdir(parents=True, exist_ok=True)
-    SOURCE.mkdir(parents=True, exist_ok=True)
 
     candidates = pd.read_csv(CANDIDATES_CSV)
     knee = pd.read_csv(KNEE_CSV)
@@ -81,6 +80,21 @@ def main() -> None:
         raise AssertionError("Expected an eight-point Pareto front with one selected knee")
     if knee.loc[knee["selected"], "standard_name"].item() != "DMTMSA":
         raise AssertionError("DMTMSA must be the official selected knee")
+
+    # The compact source-data copies are deliberately checked against the
+    # released candidate tables before any panel is rendered.
+    published_candidates = pd.read_csv(SOURCE / "Fig_candidate78_pareto_knee_selection_candidate_source_data.csv")
+    published_pareto = pd.read_csv(SOURCE / "Fig_candidate78_pareto_knee_selection_pareto_source_data.csv")
+    if len(published_candidates) != len(candidates) or len(published_pareto) != len(knee):
+        raise AssertionError("Published Pareto figure source data are incomplete")
+    source_names = set(published_candidates["canonical_smiles"])
+    candidate_names = set(candidates["canonical_smiles"])
+    if source_names != candidate_names:
+        raise AssertionError("Published Pareto figure source data do not match the candidate release")
+    source_knee = published_pareto.set_index("standard_name")["knee_distance"]
+    frozen_knee = knee.set_index("standard_name")["knee_distance"]
+    if set(source_knee.index) != set(frozen_knee.index) or not np.allclose(source_knee.sort_index(), frozen_knee.sort_index(), atol=1e-6):
+        raise AssertionError("Published Pareto figure source distances do not match the frozen selection table")
 
     candidates = candidates.copy()
     n = len(candidates)
@@ -169,10 +183,6 @@ def main() -> None:
         fig.savefig(OUT / f"{STEM}.{suffix}", bbox_inches="tight", **kwargs)
     plt.close(fig)
 
-    candidates.loc[:, ["standard_name", "canonical_smiles", "D_rank_final78", "P_rank_final78", "qD", "qP", "pareto"]].to_csv(
-        SOURCE / f"{STEM}_candidate_source_data.csv", index=False
-    )
-    pareto.to_csv(SOURCE / f"{STEM}_pareto_source_data.csv", index=False)
     caption = (
         "Data-driven selection among the 78 electrolyte candidates. D and P ranks are independently normalized to [0, 1], "
         "and Pareto-dominated candidates are removed before evaluation of the eight-point frontier. The endpoint chord connects "

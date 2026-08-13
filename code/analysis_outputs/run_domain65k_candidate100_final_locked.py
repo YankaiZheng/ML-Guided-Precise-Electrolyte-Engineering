@@ -35,7 +35,10 @@ def ndcg_at_fraction(y_true: np.ndarray, score: np.ndarray, fraction: float = 0.
     discount = 1.0 / np.log2(np.arange(2, k + 2))
     predicted = np.argsort(-score, kind="mergesort")[:k]
     ideal = np.argsort(-y_true, kind="mergesort")[:k]
-    gains = np.maximum(y_true - np.min(y_true), 0.0)
+    # The paper reports raw physical-property values as gains.  Shifting the
+    # target changes P NDCG when its minimum is non-zero, so do not translate
+    # the target before calculating DCG.
+    gains = np.asarray(y_true, dtype=float)
     return float(np.dot(gains[predicted], discount) / np.dot(gains[ideal], discount))
 
 

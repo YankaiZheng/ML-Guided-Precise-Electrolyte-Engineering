@@ -1,0 +1,13 @@
+model,prediction_column,n,spearman,ndcg_at_10pct,family,input,training_protocol
+Final fusion,score__final_fusion_multiobjective,4000,0.8357413560780362,0.8976287222430714,Final system,8 frozen rank-normalized members,all 60641 development rows
+XGBoost,xgboost,4000,0.810069,0.882407,Tree boosting,2048 selected tabular features,fold-0 trained configuration
+LightGBM,lgbm,4000,0.810738,0.881864,Tree boosting,3000 tabular features,fold-0 trained configuration
+CatBoost,catboost,4000,0.804573,0.887267,Tree boosting,3000 tabular features,fold-0 trained configuration
+RealMLP,realmlp,4000,0.793697,0.880620,Deep tabular,3000 tabular features,fold-0 trained configuration
+Equivariant vector,pred__vector_mu,4000,0.788059,0.897199,Physics-guided,three-conformer atom graphs,all 60641 development rows
+ResNet-RTDL,resnet_rtdl,4000,0.787998,0.871892,Deep tabular,3000 tabular features,fold-0 trained configuration
+CatBoost-YetiRank,catboost_yetirank,4000,0.725072,0.860563,Learning to rank,3000 tabular features,fold-0 trained configuration
+LightGBM-LTR,lightgbm_ltr,4000,0.728867,0.882597,Learning to rank,512 selected tabular features,fold-0 trained configuration
+XGBoost-LTR,xgboost_ltr,4000,0.527719,0.842726,Learning to rank,3000 tabular features,fold-0 trained configuration
+Morgan-Tanimoto kNN,morgan_tanimoto_knn20,4000,0.701735,0.823457,Similarity baseline,Morgan fingerprint,development nearest neighbours
+GFN2-xTB direct,gfn2_xtb_mu,4000,0.589294,0.800123,Physics baseline,direct GFN2-xTB dipole,no learned correction

@@ -5,3 +5,8 @@ data/test/test4000_predictions.csv,Frozen internal test labels and final-model p
 data/external/external_broad_n140.csv,Broad structural-compatible external validation set,140,30,59249,Git repository
 data/external/external_strict_n34.csv,Strict 65k-aligned subset of broad external validation set,34,30,13813,Git repository
 metadata/feature_dictionary.csv,Column-level feature metadata,3562,14,982760,Git repository
+metadata/final_model_registry.csv,Frozen final-model component registry,10,6,1256,Git repository
+metadata/figure_source_index.csv,Figure-to-source-data index,25,4,3911,Git repository
+data/candidates/candidate78_final_predictions.csv,Final 78-candidate D/P prediction table,78,34,38258,Git repository
+data/candidates/candidate78_pareto_knee.csv,Frozen eight-point Pareto-knee selection table,8,8,483,Git repository
+data/figure_source/,Compact ML figure source-data directory,25,not applicable,not applicable,Git repository

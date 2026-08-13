@@ -1,0 +1,11 @@
+property,component,final_refit_records,input,selection_or_schedule,formal_prediction_column
+D,LightGBM raw,60641 Candidate100-clean,1221 frozen multiscale features,raw D target,pred__lgbm_raw
+D,LightGBM rank,60641 Candidate100-clean,1221 frozen multiscale features,within-cohort D rank target,pred__lgbm_rank
+D,LightGBM normal,60641 Candidate100-clean,1221 frozen multiscale features,normalized D target,pred__lgbm_normal
+D,CatBoost raw,60641 Candidate100-clean,1221 frozen multiscale features,raw D target,pred__cat_raw
+D,CatBoost rank,60641 Candidate100-clean,1221 frozen multiscale features,within-cohort D rank target,pred__cat_rank
+D,XGBoost raw,60641 Candidate100-clean,1093 historical frozen features,raw D target,pred__xgb_raw
+D,XGBoost rank,60641 Candidate100-clean,1093 historical frozen features,within-cohort D rank target,pred__xgb_rank
+D,Equivariant vector,60554 graph-valid Candidate100-clean,three-conformer xTB atom graphs,35 epochs at 3e-4 plus one epoch at 5e-5,pred__vector_mu
+D,Final rank fusion,not refit,rank-normalized eight-member outputs,frozen Pareto-balanced Spearman and NDCG@10% weights,score__final_fusion_multiobjective
+P,LightGBM,60641 Candidate100-clean,512 frozen multiscale features,raw P target,P_pred__single_lgbm_raw

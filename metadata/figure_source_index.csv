@@ -1,0 +1,26 @@
+panel,source_file,description,public_plotting_script
+Fig. 2a,feature_relationship_spearman_matrix.csv,Target-free Spearman correlations among 13 representative multiscale descriptors,code/analysis_outputs/plot_feature_relationship_heatmap.py
+Fig. 2b,fig2b_algorithm_evaluation4000.csv,Internal Test-4000 algorithm comparison metrics,code/analysis_outputs/plot_domain65k_d_algorithm_comparison_4000.py
+Fig. 2c,fig5_rank_density_source.csv,True and predicted D ranks for Test-4000,code/analysis_outputs/plot_d_rank_density.py
+Fig. 2d,Fig_external_rule_stratified_rank_validation_source_data.csv,External D rank coordinates and strict-subset membership,code/analysis_outputs/plot_external_rule_stratified_rank_validation.py
+Fig. 2e,feature_interpretability_global_importance.csv,Global weighted TreeSHAP feature importances,code/analysis_outputs/plot_feature_interpretability.py
+Fig. 2e,feature_interpretability_family_importance.csv,Weighted TreeSHAP feature-family contributions,code/analysis_outputs/plot_feature_interpretability.py
+Fig. 2e,feature_interpretability_top15_points.csv,Top-15 weighted TreeSHAP point cloud,code/analysis_outputs/plot_feature_interpretability.py
+Fig. 2f,fig2_chemical_space_projection.csv,Morgan-fingerprint two-dimensional coordinates,code/analysis_outputs/plot_chemical_space_coverage.py
+Fig. 2f,fig2_nearest_tanimoto.csv,Nearest-development Tanimoto similarities,code/analysis_outputs/plot_chemical_space_coverage.py
+Fig. 2f,fig2_similarity_coverage_curve.csv,Nearest-neighbour similarity coverage curve,code/analysis_outputs/plot_chemical_space_coverage.py
+Fig. 2g,Fig_candidate78_pareto_knee_selection_candidate_source_data.csv,Final candidate D/P ranks and Pareto membership,code/analysis_outputs/plot_candidate78_pareto_knee_selection.py
+Fig. 2g,Fig_candidate78_pareto_knee_selection_pareto_source_data.csv,Released Pareto frontier and knee distances,code/analysis_outputs/plot_candidate78_pareto_knee_selection.py
+Fig. S1,fig4_fold0_member_metrics.csv,Prespecified development-validation member metrics,code/analysis_outputs/plot_frozen_fusion_validation.py
+Fig. S1,fig4_fusion_weights.csv,Frozen eight-member fusion weights,code/analysis_outputs/plot_frozen_fusion_validation.py
+Fig. S1,fig4_rank_error_correlation.csv,Rank-error complementarity among D members,source data only
+Fig. S2,Fig_P_rank_prediction_evaluation4000_source_data.csv,Test-4000 P-rank coordinates,code/analysis_outputs/plot_p_rank_validation_panels.py
+Fig. S3,Fig_external_rule_stratified_P_rank_validation_source_data.csv,External P-rank coordinates and strict-subset membership,code/analysis_outputs/plot_p_rank_validation_panels.py
+Fig. S4,fig2_similarity_coverage_curve.csv,Nearest-neighbour similarity coverage curve,code/analysis_outputs/plot_chemical_space_coverage.py
+Fig. S5,interpretability_consensus_points.csv,Member-disagreement and fusion-rank error values,code/analysis_outputs/plot_domain65k_consensus_interpretability.py
+Fig. S5,interpretability_consensus_quintiles.csv,Disagreement-quintile summaries,code/analysis_outputs/plot_domain65k_consensus_interpretability.py
+Fig. S5,interpretability_consensus_curves.csv,Consensus-coverage diagnostic curves,code/analysis_outputs/plot_domain65k_consensus_interpretability.py
+Fig. S6,fig3_vector_correction_all4000.csv,Absolute D errors for direct xTB and vector residual learning,code/analysis_outputs/plot_vector_residual_summary.py
+Fig. S7,fig3_representative_atomic_corrections.csv,Atom-level correction magnitudes for representative chemical families,source data only
+Fig. S8,Fig_vector_training_54epoch_source_data.csv,Frozen vector-training epoch history,code/analysis_outputs/plot_vector_training_dynamics.py
+Fig. S9,fig5_top10_screening_curves.csv,Top-decile screening recovery curves,source data only

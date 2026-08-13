@@ -1,0 +1,9 @@
+member,label,weight
+pred__cat_rank,CatBoost rank,0.0
+pred__cat_raw,CatBoost raw,0.021641476152705535
+pred__lgbm_normal,LightGBM normal,0.11351517891377887
+pred__lgbm_rank,LightGBM rank,0.0721776864183133
+pred__lgbm_raw,LightGBM raw,0.038919265787373133
+pred__xgb_rank,XGBoost rank,0.10465435180951824
+pred__xgb_raw,XGBoost raw,0.2123438522269022
+pred__vector_mu,Equivariant vector,0.4367481886914087

@@ -128,7 +128,7 @@ def main() -> None:
         return ((value[0] - s_at_nmax) / s_span, (value[1] - n_at_smax) / n_span)
 
     candidates: list[dict] = []
-    frontier_starts = [endpoint_s[0], endpoint_n[0], old]
+    frontier_starts = [endpoint_s[0], endpoint_n[0]]
     for alpha in np.linspace(0.0, 1.0, 21):
         initial = endpoint_n[0] * (1.0 - alpha) + endpoint_s[0] * alpha
         local_starts = [initial, *frontier_starts]

@@ -1,6 +1,8 @@
 # ML-Guided Precise Electrolyte Engineering
 
-This repository hosts the data resources for the D-P Compass workflow used for molecular ranking in electrolyte-relevant chemical space. It contains the frozen internal test set, external validation sets, final prediction tables, a complete feature dictionary, and a versioned release asset for the 60,641-molecule development set.
+This repository hosts the public data, frozen configurations, final predictions,
+and figure source data for D-P Compass, the molecular-ranking workflow used in
+the Electrolyte-65K electrolyte-relevant chemical space.
 
 ## Data at a glance
 
@@ -12,12 +14,15 @@ This repository hosts the data resources for the D-P Compass workflow used for m
 | Broad external validation set | `data/external/external_broad_n140.csv` | 140 | External D/P labels and final-model member/fusion predictions |
 | Strict external validation subset | `data/external/external_strict_n34.csv` | 34 | Strict Electrolyte-65K rule-aligned subset of the broad external set |
 | Feature dictionary | `metadata/feature_dictionary.csv` | 3,562 variables | Feature provenance, units, missing-value encoding, and final-model selection flags |
+| Final model registry | `metadata/final_model_registry.csv` | 10 components | Refitting cohorts, frozen inputs, and formal prediction columns |
+| Figure source data | `data/figure_source/` | varies | Compact numerical source data for ML figures and supplementary panels |
+| Candidate screen | `data/candidates/` | 78 | Final D/P candidate predictions and released Pareto-knee table |
 
-The `n=34` external set is a strict subset of the `n=140` broad external set. It is not an independent second external test set.
+The `n=34` external set is a strict subset of the `n=140` broad external set. It is not an independent second external test set. See [`data/README.md`](data/README.md) for all cohort and score-column definitions.
 
 ## Code
 
-The final D-P Compass training, refitting, evaluation, fusion, and figure-generation scripts are available in [`code/`](code/README.md). Frozen feature manifests and the final rank-fusion weights are included with the code.
+The public evaluation and plotting scripts are in [`code/`](code/README.md). Frozen feature manifests, final rank-fusion weights, and method-reference training scripts are included alongside them.
 
 ## File descriptions
 
@@ -31,15 +36,17 @@ The development set contains the 60,641 Candidate100-clean records used for mode
 
 `test4000_features.csv.gz` is provided as a Release v1.0.0 asset and contains the frozen 4,000-molecule internal evaluation set and all complete tabular features. `test4000_predictions.csv` in this repository contains the corresponding labels and predictions from the final D and P models. The D target is recorded in debye and P is recorded in atomic units.
 
-The test set was held out from the final model refitting and fusion-weight search. It is made public here to enable exact reproduction of reported test metrics and figures.
+The test set was held out from final model refitting and fusion-weight search. It is made public here to enable exact reproduction of reported test metrics and figures. The 4,000 records represent 3,998 unique canonical SMILES because two source identities occur twice in the QMe14S-derived records; all paper metrics remain record-level metrics on the frozen 4,000 rows.
 
 ### External validation data
 
-The external records use B3LYP/6-31+G(d,p) reference values, rather than the B3LYP/TZVP labels used for the QMe14S-derived internal data. The broad and strict tables include labels, member predictions, and the final eight-member D fusion output.
+The external records use B3LYP/6-31+G(d,p) reference values, rather than the B3LYP/TZVP labels used for the QMe14S-derived internal data. The broad and strict tables include labels, member predictions, and the final eight-member D fusion output. `D_score__recomputed_subset` is the formal external D score: frozen weights are applied to member percentile ranks recomputed within each reported cohort.
 
 ### Feature metadata
 
 `metadata/feature_dictionary.csv` defines all columns in the complete feature matrix. The Boolean columns `selected_final_D_tabular`, `selected_final_D_xgboost`, and `selected_final_P_lightgbm` identify features used by the corresponding frozen final models.
+
+`metadata/final_model_registry.csv` and [`code/frozen_configs/README.md`](code/frozen_configs/README.md) identify the final refit sizes and resolve the historical XGBoost feature-manifest provenance.
 
 ## Provenance and attribution
 
